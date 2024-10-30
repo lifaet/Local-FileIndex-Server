@@ -1,11 +1,4 @@
-import base64
-import http.server
-import os
-import socket
-import socketserver
-import string
-import threading
-import win32api
+import base64, http.server, os, socket, socketserver, string, threading, win32api
 
 stop_event = threading.Event()
 authenticated_event = threading.Event()
