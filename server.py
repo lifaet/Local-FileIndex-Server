@@ -1,79 +1,99 @@
-import http.server, socketserver, os, socket, base64, win32api
+import http.server, socketserver, os, socket, string, threading
 
-class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+stop_event = threading.Event()  # Event to signal server shutdown
 
-    def do_AUTHHEAD(self):
-        self.send_response(401)
-        self.send_header('WWW-Authenticate', 'Basic realm=\"File Server\"')
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
-
-    def do_GET(self):
-        try:
-            if self.headers.get('Authorization') is None:
-                self.do_AUTHHEAD()
-                self.wfile.write(bytes('No authorization header received', 'utf-8'))
+def start_drive_server(drive_letter, port):
+    class DriveRequestHandler(http.server.SimpleHTTPRequestHandler):
+        def do_GET(self):
+            if stop_event.is_set():
+                self.send_error(503, "Server is shutting down")
                 return
 
-            elif self.headers.get('Authorization') == 'Basic ' + base64.b64encode(
-                    bytes("admin:password", "utf-8")).decode("ascii"):
-
+            try:
                 if self.path == '/':
                     self.send_response(200)
                     self.send_header("Content-type", "text/html")
                     self.end_headers()
-                    drives = get_available_drives()
-                    links = ""
-                    for drive in drives:
-                        try:
-                            drive_name = win32api.GetVolumeInformation(drive + "\\")[0]
-                            links += f"<a href='/{drive}/'>{drive} - {drive_name}</a><br>"
-                        except:
-                            links += f"<a href='/{drive}/'>{drive}</a><br>"
 
-                    html = f"<html><head><title>Drive Index</title></head><body><h1>Available Drives:</h1>{links}</body></html>"
+                    os.chdir(drive_letter + "\\")
+                    items = os.listdir(".")
+                    links = ""
+                    for item in items:
+                        links += f"<a href='/{item}'>{item}</a><br>"
+
+                    html = f"<html><head><title>Index of {drive_letter}</title></head><body><h1>Directory listing for {drive_letter}</h1>{links}</body></html>"
                     self.wfile.write(bytes(html, "utf-8"))
 
                 else:
-                    drive_letter = self.path.split('/')[1]
-                    if drive_letter in get_available_drives():
-                        os.chdir(drive_letter + "\\")
-                        self.path = self.path.replace(f"/{drive_letter}/", "/")
-                        super().do_GET()
-                    else:
-                        self.send_error(404, "Drive not found")
+                    os.chdir(drive_letter + "\\")
+                    super().do_GET()
 
-            else:
-                self.do_AUTHHEAD()
-                self.wfile.write(bytes('Not authenticated', 'utf-8'))
+            except Exception as e:
+                print(f"Error handling GET request for {drive_letter}: {e}")
+                self.send_error(500, "Internal Server Error")
 
-        except Exception as e:
-            print(f"Error handling GET request: {e}")
-            self.send_error(500, "Internal Server Error")
+    with socketserver.TCPServer(("", port), DriveRequestHandler) as httpd:
+        print(f"Server for {drive_letter} running at: http://{socket.gethostbyname(socket.gethostname())}:{port}")
+        while not stop_event.is_set():
+            httpd.handle_request()  # Handle one request at a time
+        httpd.server_close()  # Close the server when stop_event is set
 
-    def translate_path(self, path):
-        drive_letter = path.split('/')[1]
-        path = path.replace(f"/{drive_letter}/", "/")
-        path = super().translate_path(path)
-        return path
+def start_index_server(drives, port):
+    class IndexRequestHandler(http.server.SimpleHTTPRequestHandler):
+        def do_GET(self):
+            if stop_event.is_set():
+                self.send_error(503, "Server is shutting down")
+                return
 
-def get_available_drives():
-    import string
-    available_drives = []
-    for letter in string.ascii_uppercase:
-        if os.path.exists(letter + ":\\"):
-            available_drives.append(letter + ":")
-    return available_drives
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.end_headers()
+
+            links = ""
+            for drive, port in drives.items():
+                links += f"<a href='http://{socket.gethostbyname(socket.gethostname())}:{port}/'>{drive}</a><br>"
+
+            html = f"<html><head><title>Drive Index</title></head><body><h1>Available Drives:</h1>{links}</body></html>"
+            self.wfile.write(bytes(html, "utf-8"))
+
+    with socketserver.TCPServer(("", port), IndexRequestHandler) as httpd:
+        print(f"Index server running at: http://{socket.gethostbyname(socket.gethostname())}:{port}")
+        while not stop_event.is_set():
+            httpd.handle_request()
+        httpd.server_close()
 
 if __name__ == '__main__':
-    with socketserver.TCPServer(("", 8000), MyHTTPRequestHandler) as httpd:
-        print(f"Server running at: {socket.gethostbyname(socket.gethostname())}:8000")
-        try:
-            httpd.serve_forever()
-        except KeyboardInterrupt:
-            print("Stopping server...")
-            httpd.shutdown()
-            print("Server stopped.")
+    available_drives = {}
+    for letter in string.ascii_uppercase:
+        if os.path.exists(letter + ":\\"):
+            available_drives[letter + ":"] = None
 
+    start_port = 8000
+    threads = []
+    for drive in available_drives:
+        available_drives[drive] = start_port
+        thread = threading.Thread(target=start_drive_server, args=(drive, start_port))
+        threads.append(thread)
+        thread.start()
+        start_port += 1
 
+    index_port = start_port
+    index_thread = threading.Thread(target=start_index_server, args=(available_drives, index_port))
+    index_thread.start()
 
+    try:
+        while True:
+            user_input = input()
+            if user_input.lower() == "kill":
+                print("Stopping servers...")
+                stop_event.set()  # Signal all threads to stop
+                for thread in threads:
+                    thread.join()  # Wait for threads to finish
+                index_thread.join()
+                break
+    except KeyboardInterrupt:
+        print("Stopping servers...")
+        stop_event.set()
+        for thread in threads:
+            thread.join()
+        index_thread.join()
