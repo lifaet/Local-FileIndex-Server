@@ -5,12 +5,16 @@ import socket
 import socketserver
 import string
 import threading
+import win32api
 
 stop_event = threading.Event()
 authenticated_event = threading.Event()
 
+
 def start_drive_server(drive_letter, port):
+
     class DriveRequestHandler(http.server.SimpleHTTPRequestHandler):
+
         def do_AUTHHEAD(self):
             self.send_response(401)
             self.send_header('WWW-Authenticate', 'Basic realm=\"File Server\"')
@@ -22,7 +26,6 @@ def start_drive_server(drive_letter, port):
                 self.send_error(503, "Server is shutting down")
                 return
 
-            # Check authentication status BEFORE processing any request
             if not authenticated_event.is_set():
                 self.do_AUTHHEAD()
                 self.wfile.write(bytes('Not authenticated', 'utf-8'))
@@ -52,17 +55,23 @@ def start_drive_server(drive_letter, port):
                 self.send_error(500, "Internal Server Error")
 
     with socketserver.TCPServer(("", port), DriveRequestHandler) as httpd:
-        print(f"Server for {drive_letter} running at: http://{socket.gethostbyname(socket.gethostname())}:{port}")
+        print(
+            f"Server for {drive_letter} running at: http://{socket.gethostbyname(socket.gethostname())}:{port}"
+        )
         try:
             while not stop_event.is_set():
                 httpd.handle_request()
-        except KeyboardInterrupt:
-            pass
+        except (KeyboardInterrupt, SystemExit):
+            print(f"Shutting down server for {drive_letter}...")
         finally:
+            httpd.shutdown()
             httpd.server_close()
 
+
 def start_index_server(drives, port, username, password):
+
     class IndexRequestHandler(http.server.SimpleHTTPRequestHandler):
+
         def do_AUTHHEAD(self):
             self.send_response(401)
             self.send_header('WWW-Authenticate', 'Basic realm=\"File Server\"')
@@ -78,34 +87,42 @@ def start_index_server(drives, port, username, password):
                 # Always require authentication on index server
                 if self.headers.get('Authorization') is None:
                     self.do_AUTHHEAD()
-                    self.wfile.write(bytes('No authorization header received', 'utf-8'))
+                    self.wfile.write(
+                        bytes('No authorization header received', 'utf-8'))
                     return
 
                 auth_header = self.headers.get('Authorization')
                 auth_type, encoded_credentials = auth_header.split(' ', 1)
                 if auth_type.lower() != 'basic':
                     self.do_AUTHHEAD()
-                    self.wfile.write(bytes('Invalid authentication type', 'utf-8'))
+                    self.wfile.write(
+                        bytes('Invalid authentication type', 'utf-8'))
                     return
 
-                decoded_credentials = base64.b64decode(encoded_credentials).decode('utf-8')
-                input_username, input_password = decoded_credentials.split(':', 1)
+                decoded_credentials = base64.b64decode(
+                    encoded_credentials).decode('utf-8')
+                input_username, input_password = decoded_credentials.split(
+                    ':', 1)
 
                 if input_username != username or input_password != password:
                     self.do_AUTHHEAD()
                     self.wfile.write(bytes('Invalid credentials', 'utf-8'))
-                    return
+                    return  # Return here to stop further processing
 
                 authenticated_event.set()  # Set authentication on success
 
-                # Now serve the index page
+                # Now serve the index page with drive names
                 self.send_response(200)
                 self.send_header("Content-type", "text/html")
                 self.end_headers()
 
                 links = ""
                 for drive, port in drives.items():
-                    links += f"<a href='http://{socket.gethostbyname(socket.gethostname())}:{port}/'>{drive}</a><br>"
+                    try:
+                        drive_name = win32api.GetVolumeInformation(drive + "\\")[0]
+                        links += f"<a href='http://{socket.gethostbyname(socket.gethostname())}:{port}/'>{drive} - {drive_name}</a><br>"
+                    except:
+                        links += f"<a href='http://{socket.gethostbyname(socket.gethostname())}:{port}/'>{drive}</a><br>"
 
                 html = f"<html><head><title>Drive Index</title></head><body><h1>Available Drives:</h1>{links}</body></html>"
                 self.wfile.write(bytes(html, "utf-8"))
@@ -115,14 +132,18 @@ def start_index_server(drives, port, username, password):
                 self.send_error(500, "Internal Server Error")
 
     with socketserver.TCPServer(("", port), IndexRequestHandler) as httpd:
-        print(f"Index server running at: http://{socket.gethostbyname(socket.gethostname())}:{port}")
+        print(
+            f"Index server running at: http://{socket.gethostbyname(socket.gethostname())}:{port}"
+        )
         try:
             while not stop_event.is_set():
                 httpd.handle_request()
-        except KeyboardInterrupt:
-            pass
+        except (KeyboardInterrupt, SystemExit):
+            print("Shutting down index server...")
         finally:
+            httpd.shutdown()
             httpd.server_close()
+
 
 if __name__ == '__main__':
     available_drives = {}
@@ -130,20 +151,23 @@ if __name__ == '__main__':
         if os.path.exists(letter + ":\\"):
             available_drives[letter + ":"] = None
 
-    username = "your_username"
-    password = "your_password"
+    username = "zim"
+    password = "zim"
 
     start_port = 8000
     threads = []
     for drive in available_drives:
         available_drives[drive] = start_port
-        thread = threading.Thread(target=start_drive_server, args=(drive, start_port))
+        thread = threading.Thread(target=start_drive_server,
+                                  args=(drive, start_port))
         threads.append(thread)
         thread.start()
         start_port += 1
 
     index_port = start_port
-    index_thread = threading.Thread(target=start_index_server, args=(available_drives, index_port, username, password))
+    index_thread = threading.Thread(target=start_index_server,
+                                    args=(available_drives, index_port,
+                                          username, password))
     index_thread.start()
 
     try:
