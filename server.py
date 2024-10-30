@@ -1,9 +1,4 @@
-import http.server
-import socketserver
-import os
-import socket
-import base64
-import win32api
+import http.server, socketserver, os, socket, base64, win32api
 
 class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
