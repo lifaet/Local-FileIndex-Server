@@ -1,12 +1,4 @@
-import base64
-import http.server
-import os
-import socket
-import socketserver
-import string
-import threading
-import win32api
-import urllib.parse, time
+import base64, http.server, os, socket, socketserver, string, threading, win32api, urllib.parse, time
 
 stop_event = threading.Event()
 authenticated_event = threading.Event()
@@ -44,7 +36,7 @@ def start_drive_server(drive_letter, port):
                     for item in items:
                         links += f"<div style='display:flex;justify-content:space-between;align-items:center;padding:5px 10px;border-bottom:1px solid #eee;'><a href='/{item}' style='text-decoration:none;color:#333;'>{item}</a></div>"
 
-                    html = f"<html><head><title>Index of {drive_letter}</title><style>body{{font-family:sans-serif;}} a{{color:#333;}}</style></head><body><h1>Directory listing for {drive_letter}</h1><a href='http://{socket.gethostbyname(socket.gethostname())}:{index_port}/' style='text-decoration:none;display:block;padding:5px 10px;margin-bottom:5px;'>&#8592; Back to Index</a><div style='border:1px solid #eee;border-radius:4px;overflow:hidden;'>{links}</div></body></html>"
+                    html = f"<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Index of {drive_letter}</title><style>body{{font-family:sans-serif;}} a{{color:#333;}}</style></head><body><h1>Directory listing for {drive_letter}</h1><a href='http://{socket.gethostbyname(socket.gethostname())}:{index_port}/' style='text-decoration:none;display:block;padding:5px 10px;margin-bottom:5px;'><strong>&#8592; Back to Index</strong></a><div style='border:1px solid #eee;border-radius:4px;overflow:hidden;'>{links}</div></body></html>"
                     self.wfile.write(bytes(html, "utf-8"))
 
                 else:
@@ -78,7 +70,7 @@ def start_drive_server(drive_letter, port):
                                 parent_dir_name = drive_letter  # Show drive letter
                             else:
                                 parent_dir_name = os.path.basename(parent_dir)
-                            back_link = f"<a href='/{parent_dir}' style='text-decoration:none;display:block;padding:5px 10px;margin-bottom:5px;'>&#8592; {parent_dir_name}</a>"
+                            back_link = f"<a href='/{parent_dir}' style='text-decoration:none;display:block;padding:5px 10px;margin-bottom:5px;'><strong>&#8592; {parent_dir_name}</strong></a>"
 
                     self.send_response(200)
                     self.send_header("Content-type", "text/html")
@@ -91,7 +83,7 @@ def start_drive_server(drive_letter, port):
                         links += f"<div style='display:flex;justify-content:space-between;align-items:center;padding:5px 10px;border-bottom:1px solid #eee;'><a href='/{item_path}' style='text-decoration:none;color:#333;'>{item}</a></div>"
 
                     # Consistent HTML structure for all directories
-                    html = f"<html><head><title>Index of {current_dir}</title><style>body{{font-family:sans-serif;}} a{{color:#333;}}</style></head><body><h1>Directory listing for {current_dir}</h1>{back_link}<div style='border:1px solid #eee;border-radius:4px;overflow:hidden;'>{links}</div></body></html>"
+                    html = f"<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Index of {current_dir}</title><style>body{{font-family:sans-serif;}} a{{color:#333;}}</style></head><body><h1>Directory listing for {current_dir}</h1>{back_link}<div style='border:1px solid #eee;border-radius:4px;overflow:hidden;'>{links}</div></body></html>"
                     self.wfile.write(bytes(html, "utf-8"))
 
             except Exception as e:
@@ -170,7 +162,7 @@ def start_index_server(drives, port, username, password):
                         links += f"<div style='display:flex;justify-content:space-between;align-items:center;padding:5px 10px;border-bottom:1px solid #eee;'><a href='http://{socket.gethostbyname(socket.gethostname())}:{port}/' style='text-decoration:none;color:#333;'>{drive}</a></div>"
 
                 # Consistent HTML structure for the index page
-                html = f"<html><head><title>Drive Index</title><style>body{{font-family:sans-serif;}} a{{color:#333;}}</style></head><body><h1>Available Drives:</h1><div style='border:1px solid #eee;border-radius:4px;overflow:hidden;'>{links}</div></body></html>"
+                html = f"<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Drive Index</title><style>body{{font-family:sans-serif;}} a{{color:#333;}}</style></head><body><h1>Available Drives:</h1><div style='border:1px solid #eee;border-radius:4px;overflow:hidden;'>{links}</div></body></html>"
                 self.wfile.write(bytes(html, "utf-8"))
             except Exception as e:
                 print(f"Error handling GET request for index server: {e}")
