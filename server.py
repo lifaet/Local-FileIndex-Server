@@ -43,7 +43,7 @@ def start_drive_server(drive_letter, port):
                     items = os.listdir(".")
                     links = ""
                     for item in items:
-                        links += f"<div style='display:flex;justify-content:space-between;align-items:center;padding:5px 10px;border-bottom:1px solid #eee;'><a href=/{item}' style='text-decoration:none;color:#333;'>{item}</a></div>"
+                        links += f"<div style='display:flex;justify-content:space-between;align-items:center;padding:5px 10px;border-bottom:1px solid #eee;'><a href='/{item}' style='text-decoration:none;color:#333;'>{item}</a></div>"
 
                     html = f"<html><head><title>Index of {drive_letter}</title><style>body{{font-family:sans-serif;}} a{{color:#333;}}</style></head><body><h1>Directory listing for {drive_letter}</h1><a href='http://{socket.gethostbyname(socket.gethostname())}:{index_port}/' style='text-decoration:none;display:block;padding:5px 10px;margin-bottom:5px;'>&#8592; Back to Index</a><div style='border:1px solid #eee;border-radius:4px;overflow:hidden;'>{links}</div></body></html>"
                     self.wfile.write(bytes(html, "utf-8"))
