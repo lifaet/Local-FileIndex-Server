@@ -197,7 +197,7 @@ if __name__ == "__main__":
             available_drives[letter + ":"] = None
 
     username = "zrootdisk"
-    password = "Zr00TD1sK!$%"
+    password = "Zr00TD1sK"
 
     index_port = 8000
     index_thread = threading.Thread(
