@@ -5,6 +5,7 @@ import string
 from ctypes import windll
 from urllib.parse import unquote
 
+
 app = Flask(__name__)
 app.secret_key = "your-secret-key"
 
@@ -142,5 +143,14 @@ def serve_files(path):
     # Serve your index.html regardless of path, so frontend JS handles routing
     return send_from_directory('static', 'index.html')
 
+@app.route('/favicon.ico')
+def favicon():
+    return '', 204  # Prevent 404 error on favicon
+
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    import sys
+    import logging
+    cli = sys.modules['flask.cli']
+    cli.show_server_banner = lambda *x: None  # Hide startup banner
+    logging.getLogger('werkzeug').disabled = True  # Disable request logs
+    app.run(host='0.0.0.0', port=5000, debug=False)
