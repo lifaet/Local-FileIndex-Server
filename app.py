@@ -1,4 +1,4 @@
-from flask import Flask, request, session, redirect, url_for, render_template, jsonify, send_file, abort
+from flask import Flask, request, session, redirect, url_for, render_template, jsonify, send_file, abort, send_from_directory, Response
 from pathlib import Path
 import platform
 import string
@@ -64,7 +64,6 @@ def api_list(path):
             "files": []
         })
 
-    # On Windows, keep paths like "C:/"
     if platform.system() == "Windows" and len(decoded_path) == 3 and decoded_path[1] == ":" and decoded_path[2] == "/":
         full_path = Path(decoded_path)
     else:
@@ -107,6 +106,41 @@ def api_view(filepath):
         return send_file(str(file_path), as_attachment=False)
     except PermissionError:
         abort(403)
+
+@app.route("/api/stream/<path:filepath>")
+@login_required
+def stream_video(filepath):
+    decoded_path = unquote(filepath)
+    file_path = Path(decoded_path).resolve()
+
+    if not file_path.exists() or not file_path.is_file():
+        abort(404)
+
+    file_size = file_path.stat().st_size
+    range_header = request.headers.get('Range', None)
+
+    if not range_header:
+        return send_file(str(file_path), mimetype="video/mp4")
+
+    start, end = range_header.replace('bytes=', '').split('-')
+    start = int(start)
+    end = int(end) if end else file_size - 1
+    length = end - start + 1
+
+    with open(file_path, 'rb') as f:
+        f.seek(start)
+        data = f.read(length)
+
+    response = Response(data, 206, mimetype="video/mp4", direct_passthrough=True)
+    response.headers.add('Content-Range', f'bytes {start}-{end}/{file_size}')
+    response.headers.add('Accept-Ranges', 'bytes')
+    return response
+
+@app.route('/files/', defaults={'path': ''})
+@app.route('/files/<path:path>')
+def serve_files(path):
+    # Serve your index.html regardless of path, so frontend JS handles routing
+    return send_from_directory('static', 'index.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
