@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Local Drive Server</title>
   <style>
     body {
@@ -78,7 +79,6 @@
       cursor: pointer;
       text-decoration: none;
       color: #23272a;
-      font-weight: 700;
     }
 
     a.item-link:hover {
@@ -96,17 +96,21 @@
       background: #1976d2;
       border: none;
       color: white;
-      padding: 5px 10px;
-      margin: 2px;
-      border-radius: 6px;
-      font-weight: bold;
+      padding: 6px 14px;
+      margin: 0 4px;
+      border-radius: 8px;
+      font-weight: 500;
       cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.3s ease;
     }
 
     .viewBtn:hover,
     .downloadBtn:hover {
-      background: #3498fc;
+      background: #1251a3;
     }
+
 
     .preview {
       margin: 30px auto;
@@ -214,9 +218,12 @@
                     <td>${formatBytes(file.size)}</td>
                     <td>${lastMod}</td>
                     <td>
+                      <div style="display:flex; gap:6px;">
                         <button data-name="${file.name}" class="viewBtn">View</button>
                         <a href="/api/view/${encodeURIComponent(currentPath + '/' + file.name)}" target="_blank" class="downloadBtn">Download</a>
+                      </div>
                     </td>
+
                 `;
         fileList.appendChild(row);
       });
