@@ -1,134 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>Local Drive Server</title>
   <style>
-    body {
-      font-family: 'Fira Mono', monospace;
-      margin: 2em;
-      background: #f5f7fa;
-      color: #23272a;
-    }
-
-    h1 {
-      color: #1976d2;
-      text-align: center;
-    }
-
-    .logout-btn {
-      position: fixed;
-      top: 1.5em;
-      right: 2em;
-      background: #d32f2f;
-      color: white;
-      border: none;
-      padding: 0.4em 1.4em;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .logout-btn:hover {
-      background: #b71c1c;
-    }
-
-    .back-btn {
-      margin-bottom: 10px;
-      background: #1976d2;
-      color: white;
-      border: none;
-      padding: 0.4em 1.4em;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      display: none;
-    }
-
-    .back-btn:hover {
-      background: #1251a3;
-    }
-
-    .table-container {
-      background: white;
-      border-radius: 14px;
-      padding: 1em;
-      box-shadow: 0 2px 16px #0002;
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th,
-    td {
-      padding: 1em;
-      border-bottom: 1px solid #eee;
-      text-align: left;
-    }
-
-    th {
-      color: #1976d2;
-    }
-
-    a.item-link {
-      cursor: pointer;
-      text-decoration: none;
-      color: #23272a;
-    }
-
-    a.item-link:hover {
-      color: #1976d2;
-      text-decoration: underline;
-    }
-
-    pre {
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .viewBtn,
-    .downloadBtn {
-      background: #1976d2;
-      border: none;
-      color: white;
-      padding: 6px 14px;
-      margin: 0 4px;
-      border-radius: 8px;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: background 0.3s ease;
-    }
-
-    .viewBtn:hover,
-    .downloadBtn:hover {
-      background: #1251a3;
-    }
-
-
-    .preview {
-      margin: 30px auto;
-      padding: 1em;
-      border: 1px solid #ddd;
-      border-radius: 14px;
-      background: white;
-      max-width: 90%;
-      max-height: 600px;
-      overflow: auto;
-      display: none;
-    }
+    * { box-sizing: border-box; }
+    body { font-family: monospace; margin: 2em; background: #f5f7fa; color: #23272a; }
+    .logout-btn { position: fixed; top: 1.5em; right: 2em; background: #d32f2f; color: white; border: none; padding: 0.4em 1.4em; border-radius: 6px; cursor: pointer; font-weight: 600; }
+    .logout-btn:hover { background: #b71c1c; }
+    .back-btn { margin-bottom: 10px; background: #1976d2; color: white; border: none; padding: 0.4em 1.4em; border-radius: 6px; font-weight: 600; cursor: pointer; display: none; }
+    .back-btn:hover { background: #1251a3; }
+    .table-container { background: white; border-radius: 14px; padding: 1em; box-shadow: 0 2px 16px #0002; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 1em; border-bottom: 1px solid #eee; text-align: left; }
+    th { color: #1976d2; font-weight: bold; }
+    .name-link { cursor: pointer; color: #1976d2; text-decoration: none; }
+    .name-link:hover { text-decoration: underline; }
+    .btn { background: #1976d2; color: white; border: none; padding: 0.4em 1em; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn:hover { background: #1251a3; }
+    .preview { margin: 30px auto; padding: 2em; border: 1px solid #ddd; border-radius: 14px; background: white; max-width: 95%; max-height: 70vh; overflow: auto; display: none; text-align: center; }
+    .preview img, .preview video, .preview audio { max-width: 100%; max-height: 100%; }
+    .preview pre { max-width: 100%; overflow: auto; text-align: left; }
   </style>
 </head>
-
 <body>
   <button class="logout-btn" id="logoutBtn">Logout</button>
   <button class="back-btn" id="backBtn">Back</button>
-  <!-- <h1>Local Drive Server</h1> -->
   <div>Current Path: <span id="currentPath">/</span></div>
   <div class="table-container">
     <table>
@@ -144,180 +41,147 @@
       <tbody id="fileList"></tbody>
     </table>
   </div>
-  <div class="preview" id="previewArea" style="display:none;"></div>
+  <div class="preview" id="previewArea"></div>
+  
+  <!-- Video Player Popup -->
+  <div id="videoPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9999; padding:20px;">
+    <div style="position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
+      <button onclick="closeVideoPopup()" style="position:absolute; top:20px; right:20px; background:#d32f2f; color:white; border:none; padding:10px 20px; border-radius:4px; cursor:pointer; font-size:16px; z-index:10000;">✕ Close</button>
+      <video id="videoPlayer" controls style="max-width:95%; max-height:95%; background:#000;">
+        <source id="videoSource" src="" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
 
   <script>
-    const logoutBtn = document.getElementById('logoutBtn');
-    const backBtn = document.getElementById('backBtn');
-    const currentPathSpan = document.getElementById('currentPath');
+    const INITIAL_DATA = {{ initial_data | tojson | safe }};
+    let currentPath = '/';
+
+    document.getElementById('logoutBtn').onclick = () => location.href = '/logout';
+    document.getElementById('backBtn').onclick = () => goBack();
+
     const fileList = document.getElementById('fileList');
-    const previewArea = document.getElementById('previewArea');
-
-    let currentPath = '';
-
-    logoutBtn.onclick = () => window.location.href = '/logout';
-    backBtn.onclick = () => goBack();
+    fileList.addEventListener('click', (e) => {
+      const folderLink = e.target.closest('[data-folder]');
+      const fileLink = e.target.closest('[data-file]');
+      const viewBtn = e.target.closest('[data-view-file]');
+      
+      if (folderLink) {
+        e.preventDefault();
+        const folder = folderLink.dataset.folder;
+        const newPath = currentPath === '/' ? folder : currentPath + '/' + folder;
+        loadPath(newPath);
+      } else if (fileLink) {
+        e.preventDefault();
+        const filename = fileLink.dataset.file;
+        const filepath = currentPath === '/' ? filename : currentPath + '/' + filename;
+        previewFile(filepath);
+      } else if (viewBtn) {
+        e.preventDefault();
+        const filename = viewBtn.dataset.viewFile;
+        const filepath = currentPath === '/' ? filename : currentPath + '/' + filename;
+        previewFile(filepath);
+      }
+    });
 
     function formatBytes(bytes) {
-      if (bytes === 0) return '0 Bytes';
-      const k = 1024;
-      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+      if (bytes === 0) return '0 B';
+      const k = 1024, sizes = ['B', 'KB', 'MB', 'GB'];
       const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
-
-    function updatePath(path) {
-      currentPath = path;
-      currentPathSpan.textContent = path || '/';
-      backBtn.style.display = (path && path !== '') ? 'inline-block' : 'none';
-    }
-
-    function fetchList(path) {
-      let apiPath = '/api/list/';
-      if (path) apiPath += encodeURIComponent(path);
-      fetch(apiPath)
-        .then(res => res.json())
-        .then(data => {
-          if (data.error) {
-            fileList.innerHTML = `<tr><td colspan="5" style="color:red; text-align:center;">${data.error}</td></tr>`;
-            previewArea.style.display = 'none';
-            return;
-          }
-          renderList(data);
-          previewArea.style.display = 'none';
-        })
-        .catch(() => {
-          fileList.innerHTML = `<tr><td colspan="5" style="color:red; text-align:center;">Failed to load directory</td></tr>`;
-          previewArea.style.display = 'none';
-        });
+      return (bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i];
     }
 
     function renderList(data) {
       fileList.innerHTML = '';
-      if (data.folders.length === 0 && data.files.length === 0) {
-        fileList.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#888;">Empty directory</td></tr>`;
-        return;
-      }
+      currentPath = data.current_path;
+      document.getElementById('currentPath').textContent = currentPath;
+      document.getElementById('backBtn').style.display = currentPath && currentPath !== '/' ? 'inline-block' : 'none';
 
       data.folders.forEach(folder => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-                    <td><a href="#" class="item-link" data-type="folder" data-name="${folder}">${folder}</a></td>
-                    <td>Folder</td><td></td><td></td><td></td>
-                `;
-        fileList.appendChild(row);
+        const row = fileList.insertRow();
+        row.innerHTML = `<td><a href="#" class="name-link" data-folder="${folder}">${folder}</a></td><td>Folder</td><td></td><td></td><td></td>`;
       });
 
       data.files.forEach(file => {
-        const lastMod = new Date(file.mtime * 1000).toLocaleString();
-        const row = document.createElement('tr');
-        row.innerHTML = `
-                    <td><a href="#" class="item-link" data-type="file" data-name="${file.name}">${file.name}</a></td>
-                    <td>File</td>
-                    <td>${formatBytes(file.size)}</td>
-                    <td>${lastMod}</td>
-                    <td>
-                      <div style="display:flex; gap:6px;">
-                        <button data-name="${file.name}" class="viewBtn">View</button>
-                        <a href="/api/view/${encodeURIComponent(currentPath + '/' + file.name)}" target="_blank" class="downloadBtn">Download</a>
-                      </div>
-                    </td>
-
-                `;
-        fileList.appendChild(row);
-      });
-
-      fileList.querySelectorAll('.item-link').forEach(link => {
-        link.addEventListener('click', e => {
-          e.preventDefault();
-          const type = link.dataset.type;
-          const name = link.dataset.name;
-          const newPath = currentPath ? (currentPath + '/' + name) : name;
-          if (type === 'folder') {
-            loadPath(newPath);
-          } else if (type === 'file') {
-            previewFile(newPath);
-          }
-        });
-      });
-
-      fileList.querySelectorAll('.viewBtn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const name = btn.dataset.name;
-          previewFile(currentPath ? (currentPath + '/' + name) : name);
-        });
+        const row = fileList.insertRow();
+        const mtime = new Date(file.mtime * 1000).toLocaleString();
+        const downloadPath = encodeURIComponent(currentPath === '/' ? file.name : currentPath + '/' + file.name);
+        row.innerHTML = `<td><a href="#" class="name-link" data-file="${file.name}">${file.name}</a></td><td>File</td><td>${formatBytes(file.size)}</td><td>${mtime}</td><td><a href="/api/view/?path=${downloadPath}" class="btn">Download</a> <a href="#" class="btn" data-view-file="${file.name}">Preview</a></td>`;
       });
     }
+
     function previewFile(filepath) {
       const ext = filepath.split('.').pop().toLowerCase();
-      previewArea.style.display = "block";  // show it
-      previewArea.innerHTML = 'Loading preview...';
-
+      const preview = document.getElementById('previewArea');
+      const dlPath = encodeURIComponent(filepath);
+      
+      preview.style.display = 'block';
+      
       const imageExts = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'];
-      const audioExts = ['mp3', 'wav', 'ogg'];
-      const videoExts = ['mp4', 'webm', 'ogg', 'mkv', 'avi', 'mov'];
-      const textExts = ['txt', 'log', 'md', 'json', 'js', 'css', 'html', 'py', 'java', 'c', 'cpp'];
-
-      const streamUrl = '/api/stream/' + encodeURIComponent(filepath);
-      const viewUrl = '/api/view/' + encodeURIComponent(filepath);
-
+      const videoExts = ['mp4', 'webm', 'mkv', 'avi', 'mov', 'flv', 'm4v', 'mts', 'ts'];
+      const audioExts = ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'flac'];
+      const textExts = ['txt', 'log', 'md', 'json', 'js', 'css', 'html', 'py', 'java', 'c', 'cpp', 'sh', 'bash', 'xml', 'yaml', 'yml'];
+      const pdfExts = ['pdf'];
+      
       if (imageExts.includes(ext)) {
-        previewArea.innerHTML = `<img src="${viewUrl}" style="max-width:100%; max-height:500px; display:block; margin: 0 auto;" alt="${filepath}" />`;
-      } else if (audioExts.includes(ext)) {
-        previewArea.innerHTML = `<audio controls style="width:100%;"><source src="${viewUrl}" type="audio/${ext}"></audio>`;
+        preview.innerHTML = `<img src="/api/view/?path=${dlPath}" style="max-height: 70vh; margin: auto; display: block;" />`;
       } else if (videoExts.includes(ext)) {
-        previewArea.innerHTML = `
-            <video controls style="width:100%; max-height:600px; display:block; margin: 0 auto;">
-                <source src="${streamUrl}" type="video/${ext === 'mkv' ? 'mp4' : ext}">
-                Your browser does not support the video tag.
-            </video>
-        `;
+        openVideoPopup(`/api/stream/?path=${dlPath}`, filepath);
+      } else if (audioExts.includes(ext)) {
+        preview.innerHTML = `<p>Audio File</p><audio controls style="width: 100%; margin: 20px auto; display: block;"><source src="/api/view/?path=${dlPath}" type="audio/${ext}">Your browser does not support audio.</audio><p><a href="/api/view/?path=${dlPath}" class="btn" download>Download</a></p>`;
+      } else if (pdfExts.includes(ext)) {
+        preview.innerHTML = `<iframe src="/api/view/?path=${dlPath}" style="width: 100%; height: 70vh; border: none;"></iframe>`;
       } else if (textExts.includes(ext)) {
-        fetch(viewUrl)
-          .then(r => r.text())
-          .then(text => {
-            previewArea.innerHTML = `<pre>${escapeHtml(text)}</pre>`;
-          })
-          .catch(() => {
-            previewArea.innerHTML = 'Failed to load file preview.';
-          });
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/api/view/?path=${dlPath}`, true);
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            const text = xhr.responseText.substring(0, 100000);
+            const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            preview.innerHTML = `<pre>${escaped}</pre>`;
+          } else {
+            preview.innerHTML = '<p style="color:red;">Could not load preview</p>';
+          }
+        };
+        xhr.onerror = () => preview.innerHTML = '<p style="color:red;">Error loading file</p>';
+        xhr.send();
       } else {
-        previewArea.innerHTML = `<a href="${viewUrl}" download>Download ${filepath}</a>`;
+        preview.innerHTML = `<p>No preview available for this file type</p><a href="/api/view/?path=${dlPath}" class="btn" download>Download ${filepath}</a>`;
       }
     }
 
-
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
+    function openVideoPopup(src, filename) {
+      document.getElementById('videoPopup').style.display = 'block';
+      document.getElementById('videoSource').src = src;
+      document.getElementById('videoPlayer').load();
+      document.getElementById('videoPlayer').focus();
     }
 
-    function goBack() {
-      if (!currentPath) return;
-      const parts = currentPath.split('/');
-      parts.pop();
-      const newPath = parts.join('/');
-      loadPath(newPath);
+    function closeVideoPopup() {
+      const video = document.getElementById('videoPlayer');
+      video.pause();
+      video.src = '';
+      document.getElementById('videoPopup').style.display = 'none';
     }
 
     function loadPath(path) {
-      updatePath(path);
-      history.pushState({ path }, '', '/?path=' + encodeURIComponent(path));
-      fetchList(path);
+      const url = path === '/' ? '/api/list/' : '/api/list/?path=' + encodeURIComponent(path);
+      fetch(url, { credentials: 'same-origin' })
+        .then(r => r.json())
+        .then(data => renderList(data))
+        .catch(err => {
+          fileList.innerHTML = '<tr><td colspan="5" style="color:red;">Error loading directory</td></tr>';
+        });
     }
 
-    window.onpopstate = (event) => {
-      const path = event.state ? event.state.path : '';
-      loadPath(path);
-    };
+    function goBack() {
+      const parts = currentPath.split('/').filter(x => x);
+      parts.pop();
+      loadPath(parts.length ? '/' + parts.join('/') : '/');
+    }
 
-    window.onload = () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const pathParam = urlParams.get('path') || '';
-      loadPath(pathParam);
-    };
+    window.onload = () => renderList(INITIAL_DATA);
   </script>
 </body>
-
 </html>

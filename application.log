@@ -1,0 +1,220 @@
+2025-11-26 20:29:12,488 - __main__ - INFO - ============================================================
+2025-11-26 20:29:12,488 - __main__ - INFO - Starting Local FileIndex Server
+2025-11-26 20:29:12,489 - __main__ - INFO - System: Linux
+2025-11-26 20:29:12,489 - __main__ - INFO - Python: 3.12.3
+2025-11-26 20:29:12,489 - __main__ - INFO - ============================================================
+2025-11-26 20:29:12,489 - __main__ - INFO - Server running on http://0.0.0.0:5000
+2025-11-26 20:29:12,489 - __main__ - INFO - Default Login: admin / admin
+2025-11-26 20:29:12,489 - __main__ - INFO - Press CTRL+C to stop
+2025-11-26 20:29:12,490 - __main__ - INFO - ============================================================
+2025-11-26 20:29:12,493 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.68.143.118:5000
+2025-11-26 20:29:12,493 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 20:29:18,284 - __main__ - INFO - User logout from 10.68.143.118
+2025-11-26 20:29:18,285 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:29:18] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-11-26 20:29:18,297 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:29:18] "GET /login HTTP/1.1" 200 -
+2025-11-26 20:29:18,378 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:29:18] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:29:20,720 - __main__ - INFO - Successful login from 10.68.143.118
+2025-11-26 20:29:20,721 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:29:20] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-11-26 20:29:20,729 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:29:20] "GET / HTTP/1.1" 200 -
+2025-11-26 20:29:20,795 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:29:20] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:29:24,135 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:29:24] "GET / HTTP/1.1" 200 -
+2025-11-26 20:29:24,186 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:29:24] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:29:24,626 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:29:24] "GET / HTTP/1.1" 200 -
+2025-11-26 20:29:24,678 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:29:24] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:29:24,883 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:29:24] "GET / HTTP/1.1" 200 -
+2025-11-26 20:29:24,940 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:29:24] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:31:56,596 - __main__ - INFO - ============================================================
+2025-11-26 20:31:56,596 - __main__ - INFO - Starting Local FileIndex Server
+2025-11-26 20:31:56,596 - __main__ - INFO - System: Linux
+2025-11-26 20:31:56,596 - __main__ - INFO - Python: 3.12.3
+2025-11-26 20:31:56,597 - __main__ - INFO - ============================================================
+2025-11-26 20:31:56,597 - __main__ - INFO - Server running on http://0.0.0.0:5000
+2025-11-26 20:31:56,597 - __main__ - INFO - Default Login: admin / admin
+2025-11-26 20:31:56,597 - __main__ - INFO - Press CTRL+C to stop
+2025-11-26 20:31:56,597 - __main__ - INFO - ============================================================
+2025-11-26 20:31:56,600 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.68.143.118:5000
+2025-11-26 20:31:56,600 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 20:32:00,885 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:00] "GET / HTTP/1.1" 200 -
+2025-11-26 20:32:00,951 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:00] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:32:01,818 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:01] "GET / HTTP/1.1" 200 -
+2025-11-26 20:32:01,883 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:01] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:32:17,112 - __main__ - INFO - ============================================================
+2025-11-26 20:32:17,112 - __main__ - INFO - Starting Local FileIndex Server
+2025-11-26 20:32:17,112 - __main__ - INFO - System: Linux
+2025-11-26 20:32:17,112 - __main__ - INFO - Python: 3.12.3
+2025-11-26 20:32:17,112 - __main__ - INFO - ============================================================
+2025-11-26 20:32:17,112 - __main__ - INFO - Server running on http://0.0.0.0:5000
+2025-11-26 20:32:17,113 - __main__ - INFO - Default Login: admin / admin
+2025-11-26 20:32:17,113 - __main__ - INFO - Press CTRL+C to stop
+2025-11-26 20:32:17,113 - __main__ - INFO - ============================================================
+2025-11-26 20:32:17,116 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.68.143.118:5000
+2025-11-26 20:32:17,116 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 20:32:23,265 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:23] "GET / HTTP/1.1" 200 -
+2025-11-26 20:32:23,433 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:23] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:32:26,091 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:26] "GET / HTTP/1.1" 200 -
+2025-11-26 20:32:26,144 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:32:26,809 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:26] "GET / HTTP/1.1" 200 -
+2025-11-26 20:32:26,854 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:32:27,014 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:27] "GET / HTTP/1.1" 200 -
+2025-11-26 20:32:27,059 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:27] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:32:27,235 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:27] "GET / HTTP/1.1" 200 -
+2025-11-26 20:32:27,282 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:27] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:32:27,438 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:27] "GET / HTTP/1.1" 200 -
+2025-11-26 20:32:27,546 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:32:27] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:34:33,274 - __main__ - INFO - ============================================================
+2025-11-26 20:34:33,274 - __main__ - INFO - Starting Local FileIndex Server
+2025-11-26 20:34:33,274 - __main__ - INFO - System: Linux
+2025-11-26 20:34:33,274 - __main__ - INFO - Python: 3.12.3
+2025-11-26 20:34:33,275 - __main__ - INFO - ============================================================
+2025-11-26 20:34:33,275 - __main__ - INFO - Server running on http://0.0.0.0:5000
+2025-11-26 20:34:33,275 - __main__ - INFO - Default Login: admin / admin
+2025-11-26 20:34:33,275 - __main__ - INFO - Press CTRL+C to stop
+2025-11-26 20:34:33,275 - __main__ - INFO - ============================================================
+2025-11-26 20:34:33,278 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.68.143.118:5000
+2025-11-26 20:34:33,278 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 20:36:57,672 - __main__ - INFO - Successful login from 127.0.0.1
+2025-11-26 20:36:57,674 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 20:36:57] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-11-26 20:36:57,680 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 20:36:57] "GET / HTTP/1.1" 200 -
+2025-11-26 20:36:57,690 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 20:36:57] "GET / HTTP/1.1" 200 -
+2025-11-26 20:37:43,465 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 20:37:43] "GET /api/list/ HTTP/1.1" 200 -
+2025-11-26 20:38:36,930 - __main__ - INFO - ============================================================
+2025-11-26 20:38:36,930 - __main__ - INFO - Starting Local FileIndex Server
+2025-11-26 20:38:36,931 - __main__ - INFO - System: Linux
+2025-11-26 20:38:36,931 - __main__ - INFO - Python: 3.12.3
+2025-11-26 20:38:36,931 - __main__ - INFO - ============================================================
+2025-11-26 20:38:36,931 - __main__ - INFO - Server running on http://0.0.0.0:5000
+2025-11-26 20:38:36,931 - __main__ - INFO - Default Login: admin / admin
+2025-11-26 20:38:36,932 - __main__ - INFO - Press CTRL+C to stop
+2025-11-26 20:38:36,932 - __main__ - INFO - ============================================================
+2025-11-26 20:38:47,742 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:47] "GET / HTTP/1.1" 200 -
+2025-11-26 20:38:47,802 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:47] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:38:48,453 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:48] "GET / HTTP/1.1" 200 -
+2025-11-26 20:38:48,498 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:48] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:38:48,613 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:48] "GET / HTTP/1.1" 200 -
+2025-11-26 20:38:48,656 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:48] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:38:48,779 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:48] "GET / HTTP/1.1" 200 -
+2025-11-26 20:38:48,865 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:48] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:38:48,951 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:48] "GET / HTTP/1.1" 200 -
+2025-11-26 20:38:48,987 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:48] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:38:49,114 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:49] "GET / HTTP/1.1" 200 -
+2025-11-26 20:38:49,156 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:49] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:38:49,277 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:49] "GET / HTTP/1.1" 200 -
+2025-11-26 20:38:49,330 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:49] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:38:49,426 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:49] "GET / HTTP/1.1" 200 -
+2025-11-26 20:38:49,465 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:49] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:38:49,575 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:49] "GET / HTTP/1.1" 200 -
+2025-11-26 20:38:49,614 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:38:49] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:39:16,188 - __main__ - INFO - ============================================================
+2025-11-26 20:39:16,188 - __main__ - INFO - Starting Local FileIndex Server
+2025-11-26 20:39:16,188 - __main__ - INFO - System: Linux
+2025-11-26 20:39:16,189 - __main__ - INFO - Python: 3.12.3
+2025-11-26 20:39:16,189 - __main__ - INFO - ============================================================
+2025-11-26 20:39:16,189 - __main__ - INFO - Server running on http://0.0.0.0:5000
+2025-11-26 20:39:16,189 - __main__ - INFO - Default Login: admin / admin
+2025-11-26 20:39:16,189 - __main__ - INFO - Press CTRL+C to stop
+2025-11-26 20:39:16,189 - __main__ - INFO - ============================================================
+2025-11-26 20:39:16,193 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.68.143.118:5000
+2025-11-26 20:39:16,193 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 20:39:24,525 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:39:24] "GET / HTTP/1.1" 200 -
+2025-11-26 20:39:24,737 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:39:24] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:39:34,404 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:39:34] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:39:42,608 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:39:42] "GET / HTTP/1.1" 200 -
+2025-11-26 20:39:42,743 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:39:42] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:39:51,117 - __main__ - WARNING - 404 Not Found: /media/Documents
+2025-11-26 20:39:51,118 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:39:51] "[33mGET /media/Documents HTTP/1.1[0m" 404 -
+2025-11-26 20:39:51,322 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:39:51] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:39:55,386 - __main__ - WARNING - 404 Not Found: /media/Documents
+2025-11-26 20:39:55,387 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:39:55] "[33mGET /media/Documents HTTP/1.1[0m" 404 -
+2025-11-26 20:39:55,447 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:39:55] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:39:57,704 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:39:57] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:41:56,373 - __main__ - INFO - ============================================================
+2025-11-26 20:41:56,373 - __main__ - INFO - Starting Local FileIndex Server
+2025-11-26 20:41:56,373 - __main__ - INFO - System: Linux
+2025-11-26 20:41:56,373 - __main__ - INFO - Python: 3.12.3
+2025-11-26 20:41:56,374 - __main__ - INFO - ============================================================
+2025-11-26 20:41:56,374 - __main__ - INFO - Server running on http://0.0.0.0:5000
+2025-11-26 20:41:56,374 - __main__ - INFO - Default Login: admin / admin
+2025-11-26 20:41:56,374 - __main__ - INFO - Press CTRL+C to stop
+2025-11-26 20:41:56,374 - __main__ - INFO - ============================================================
+2025-11-26 20:41:56,376 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.68.143.118:5000
+2025-11-26 20:41:56,377 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 20:42:02,647 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:42:02] "GET / HTTP/1.1" 200 -
+2025-11-26 20:42:02,845 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:42:02] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:42:04,509 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:42:04] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:43:01,712 - __main__ - INFO - ============================================================
+2025-11-26 20:43:01,713 - __main__ - INFO - Starting Local FileIndex Server
+2025-11-26 20:43:01,713 - __main__ - INFO - System: Linux
+2025-11-26 20:43:01,713 - __main__ - INFO - Python: 3.12.3
+2025-11-26 20:43:01,713 - __main__ - INFO - ============================================================
+2025-11-26 20:43:01,713 - __main__ - INFO - Server running on http://0.0.0.0:5000
+2025-11-26 20:43:01,713 - __main__ - INFO - Default Login: admin / admin
+2025-11-26 20:43:01,713 - __main__ - INFO - Press CTRL+C to stop
+2025-11-26 20:43:01,714 - __main__ - INFO - ============================================================
+2025-11-26 20:43:01,716 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.68.143.118:5000
+2025-11-26 20:43:01,716 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 20:43:12,393 - __main__ - INFO - Successful login from 127.0.0.1
+2025-11-26 20:43:12,397 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 20:43:12] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-11-26 20:43:12,426 - __main__ - ERROR - Error listing directory /media/Game: Path.is_dir() got an unexpected keyword argument 'follow_symlinks'
+2025-11-26 20:43:12,426 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 20:43:12] "[35m[1mGET /api/list/?path=/media/Game HTTP/1.1[0m" 500 -
+2025-11-26 20:44:55,798 - __main__ - INFO - ============================================================
+2025-11-26 20:44:55,798 - __main__ - INFO - Starting Local FileIndex Server
+2025-11-26 20:44:55,799 - __main__ - INFO - System: Linux
+2025-11-26 20:44:55,799 - __main__ - INFO - Python: 3.12.3
+2025-11-26 20:44:55,799 - __main__ - INFO - ============================================================
+2025-11-26 20:44:55,799 - __main__ - INFO - Server running on http://0.0.0.0:5000
+2025-11-26 20:44:55,799 - __main__ - INFO - Default Login: admin / admin
+2025-11-26 20:44:55,799 - __main__ - INFO - Press CTRL+C to stop
+2025-11-26 20:44:55,799 - __main__ - INFO - ============================================================
+2025-11-26 20:44:55,802 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.68.143.118:5000
+2025-11-26 20:44:55,803 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 20:45:04,674 - __main__ - INFO - Successful login from 127.0.0.1
+2025-11-26 20:45:04,678 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 20:45:04] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-11-26 20:45:04,705 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 20:45:04] "GET /api/list/?path=/media/Game HTTP/1.1" 200 -
+2025-11-26 20:45:10,818 - werkzeug - INFO - 127.0.0.1 - - [26/Nov/2025 20:45:10] "GET / HTTP/1.1" 200 -
+2025-11-26 20:45:37,598 - __main__ - INFO - ============================================================
+2025-11-26 20:45:37,599 - __main__ - INFO - Starting Local FileIndex Server
+2025-11-26 20:45:37,599 - __main__ - INFO - System: Linux
+2025-11-26 20:45:37,599 - __main__ - INFO - Python: 3.12.3
+2025-11-26 20:45:37,599 - __main__ - INFO - ============================================================
+2025-11-26 20:45:37,599 - __main__ - INFO - Server running on http://0.0.0.0:5000
+2025-11-26 20:45:37,599 - __main__ - INFO - Default Login: admin / admin
+2025-11-26 20:45:37,600 - __main__ - INFO - Press CTRL+C to stop
+2025-11-26 20:45:37,600 - __main__ - INFO - ============================================================
+2025-11-26 20:45:37,603 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.68.143.118:5000
+2025-11-26 20:45:37,603 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-26 20:45:48,047 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:45:48] "GET / HTTP/1.1" 200 -
+2025-11-26 20:45:48,286 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:45:48] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:45:49,993 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:45:49] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:47:22,176 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:47:22] "GET / HTTP/1.1" 200 -
+2025-11-26 20:47:22,242 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:47:22] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:47:22,959 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:47:22] "GET / HTTP/1.1" 200 -
+2025-11-26 20:47:23,011 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:47:23] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-11-26 20:47:23,157 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:47:23] "GET / HTTP/1.1" 200 -
+2025-11-26 20:47:23,211 - werkzeug - INFO - 10.68.143.118 - - [26/Nov/2025 20:47:23] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
