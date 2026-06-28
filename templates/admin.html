@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background: #f5f7fa; color: #23272a; }
+    .top-bar { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+    .btn, .logout-btn { cursor: pointer; border: none; border-radius: 6px; padding: 0.6em 1.2em; color: white; font-weight: 600; }
+    .btn { background: #1976d2; }
+    .btn:hover { background: #1251a3; }
+    .logout-btn { background: #d32f2f; }
+    .logout-btn:hover { background: #b71c1c; }
+    .block-btn { background: #f57c00; }
+    .block-btn:hover { background: #e65100; }
+    .table-container { background: white; border-radius: 14px; padding: 1em; box-shadow: 0 2px 16px #0002; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 0.9em; border-bottom: 1px solid #eee; text-align: left; }
+    th { color: #1976d2; font-weight: bold; }
+    .status { font-size: 0.95rem; color: #555; }
+    .note { margin-top: 1rem; color: #555; }
+    .key-actions { margin-bottom: 1rem; }
+    .key-cell { font-family: monospace; }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <button class="logout-btn" id="logoutBtn">Logout</button>
+    <button class="btn" id="homeBtn">Open Explorer</button>
+    <button class="btn" id="refreshBtn">Refresh Sessions</button>
+  </div>
+
+  <h1>Admin Dashboard</h1>
+  <p class="note">Monitor connected users, see what they are browsing or viewing, and force logout or block users.</p>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Role</th>
+          <th>IP</th>
+          <th>Action</th>
+          <th>Current Path</th>
+          <th>Current File</th>
+          <th>Login</th>
+          <th>Last Seen</th>
+          <th>Controls</th>
+        </tr>
+      </thead>
+      <tbody id="sessionTable"></tbody>
+    </table>
+  </div>
+
+  <h2>Blocked Users</h2>
+  <p id="blockedUsers">Loading blocked users...</p>
+
+  <h2>Public Access Keys</h2>
+  <div class="key-actions">
+    <button class="btn" id="generateKeyBtn">Generate New Access Key</button>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Access Key</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="keyTable"></tbody>
+    </table>
+  </div>
+
+  <script>
+    document.getElementById('logoutBtn').onclick = () => location.href = '/logout';
+    document.getElementById('homeBtn').onclick = () => location.href = '/';
+    document.getElementById('refreshBtn').onclick = loadSessions;
+    document.getElementById('generateKeyBtn').onclick = generateKey;
+
+    function formatTime(ts) {
+      return new Date(ts * 1000).toLocaleString();
+    }
+
+    let refreshInterval = null;
+    function isButtonActive() {
+      const active = document.activeElement;
+      return active && (active.tagName === 'BUTTON' || active.closest && active.closest('button'));
+    }
+
+    function loadSessions() {
+      if (isButtonActive()) {
+        return;
+      }
+      fetch('/admin/api/sessions', { credentials: 'same-origin' })
+        .then(r => r.json())
+        .then(data => {
+          const table = document.getElementById('sessionTable');
+          table.innerHTML = '';
+          data.sessions.forEach(session => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${session.username}</td>
+              <td>${session.role}</td>
+              <td>${session.ip}</td>
+              <td>${session.action}</td>
+              <td>${session.current_path}</td>
+              <td>${session.current_file || '-'}</td>
+              <td>${formatTime(session.login_time)}</td>
+              <td>${formatTime(session.last_seen)}</td>
+              <td>
+                <button class="btn" onclick="adminAction('force_logout', '${session.session_id}', '${session.username}')">Force Logout</button>
+                ${session.role !== 'admin' ? `<button class="btn block-btn" onclick="adminAction('block_user', '${session.session_id}', '${session.username}')">Block</button>` : ''}
+              </td>
+            `;
+            table.appendChild(row);
+          });
+          const blocked = data.blocked || [];
+          document.getElementById('blockedUsers').textContent = blocked.length ? blocked.join(', ') : 'No blocked users.';
+          renderAccessKeys(data.access_keys || []);
+        })
+        .catch(() => {
+          document.getElementById('sessionTable').innerHTML = '<tr><td colspan="9" style="color:red;">Unable to load session data.</td></tr>';
+        });
+    }
+
+    function renderAccessKeys(keys) {
+      const keyTable = document.getElementById('keyTable');
+      keyTable.innerHTML = '';
+      if (!keys.length) {
+        const row = document.createElement('tr');
+        row.innerHTML = '<td colspan="2" style="color:#555;">No access keys defined.</td>';
+        keyTable.appendChild(row);
+        return;
+      }
+      keys.forEach(key => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="key-cell">${key}</td>
+          <td><button class="btn block-btn" onclick="removeAccessKey('${key}')">Remove</button></td>
+        `;
+        keyTable.appendChild(row);
+      });
+    }
+
+    function generateKey() {
+      fetch('/admin/api/keys', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'generate_key' })
+      })
+        .then(r => r.json())
+        .then(result => {
+          if (result.success) {
+            renderAccessKeys(result.access_keys || []);
+            alert('New key: ' + result.key);
+          } else {
+            alert(result.message || 'Unable to create key.');
+          }
+        })
+        .catch(() => alert('Unable to create key.'));
+    }
+
+    function removeAccessKey(key) {
+      if (!confirm('Remove access key?')) {
+        return;
+      }
+      fetch('/admin/api/keys', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'remove_key', key })
+      })
+        .then(r => r.json())
+        .then(result => {
+          if (result.success) {
+            renderAccessKeys(result.access_keys || []);
+          } else {
+            alert(result.message || 'Unable to remove key.');
+          }
+        })
+        .catch(() => alert('Unable to remove key.'));
+    }
+
+    function startRefresh() {
+      if (refreshInterval) {
+        clearInterval(refreshInterval);
+      }
+      refreshInterval = setInterval(loadSessions, 5000);
+    }
+
+    function adminAction(action, sessionId, username) {
+      fetch('/admin/api/action', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action, session_id: sessionId, username })
+      })
+        .then(r => r.json())
+        .then(result => {
+          alert(result.message || 'Action completed.');
+          loadSessions();
+        })
+        .catch(() => alert('Unable to perform action.'));
+    }
+
+    window.onload = () => {
+      loadSessions();
+      startRefresh();
+    };
+  </script>
+</body>
+</html>

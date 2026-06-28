@@ -25,7 +25,11 @@
 </head>
 <body>
   <button class="logout-btn" id="logoutBtn">Logout</button>
+  {% if user_role == 'admin' %}
+  <button class="logout-btn" id="adminBtn" style="right: 12em; background: #1976d2;">Admin Dashboard</button>
+  {% endif %}
   <button class="back-btn" id="backBtn">Back</button>
+  <div>Signed in as: <strong>{{ username }}</strong>{% if user_role == 'admin' %} (admin){% endif %}</div>
   <div>Current Path: <span id="currentPath">/</span></div>
   <div class="table-container">
     <table>
@@ -59,6 +63,10 @@
     let currentPath = '/';
 
     document.getElementById('logoutBtn').onclick = () => location.href = '/logout';
+    const adminBtn = document.getElementById('adminBtn');
+    if (adminBtn) {
+      adminBtn.onclick = () => location.href = '/admin';
+    }
     document.getElementById('backBtn').onclick = () => goBack();
 
     const fileList = document.getElementById('fileList');
